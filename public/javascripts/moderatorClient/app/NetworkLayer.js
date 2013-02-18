@@ -2,14 +2,13 @@
  * File: NetworkLayer.js
  */
 
+ // TODO: would be nice if this could be shared between: player, moderator, global projects?
 Ext.define('BiofuelsModerator.view.NetworkLayer', {
       
     //--------------------------------------------------------------------------
     constructor: function() {
     	
-    	console.log('constructor happening!');
     	this.networkEvents = new Array();
-    	this.openSocket();
     },
   
     //--------------------------------------------------------------------------
@@ -20,21 +19,18 @@ Ext.define('BiofuelsModerator.view.NetworkLayer', {
     		scope: scope
     	};
     	
-    	console.log("Adding log event: ");
-    	console.log(event);
     	this.networkEvents.push(event);
     },
 
     //--------------------------------------------------------------------------
-	openSocket: function() {
+	openSocket: function(ipAddr,port,url) {
 		
 		var WS = window['MozWebSocket'] ? MozWebSocket : WebSocket;
 		
 		var self = this;
-//		this.webSocket = new WS('ws://192.168.1.101:9000/BiofuelsGame/serverConnect');
-		this.webSocket = new WS('ws://10.140.2.208:9000/BiofuelsGame/serverConnect');
+		this.webSocket = new WS('ws://' + ipAddr + ':' + port + url);
+		
 		this.webSocket.onopen = function() {
-			console.log('websocket onOpen!!');
 		};
 		this.webSocket.onclose = function() {
 			console.log('websocket onClose!!');
@@ -53,12 +49,11 @@ Ext.define('BiofuelsModerator.view.NetworkLayer', {
 		this.webSocket.onerror = function() {
 			console.log('websocket onError!!');
 		};
-		this.socket = this.webSocket;
 	},
 	
     //--------------------------------------------------------------------------
 	send: function(json) {
-		this.socket.send(json);
+		this.webSocket.send(json);
 	}
 
 });

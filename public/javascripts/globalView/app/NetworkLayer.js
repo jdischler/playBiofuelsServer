@@ -32,7 +32,7 @@ Ext.define('BiofuelsGlobal.view.NetworkLayer', {
 		
 		var self = this;
 //		this.webSocket = new WS('ws://192.168.1.101:9000/BiofuelsGame/serverConnect');
-		this.webSocket = new WS('ws://10.140.1.110:9000/BiofuelsGame/serverConnect');
+		this.webSocket = new WS('ws://10.140.1.137:9000/BiofuelsGame/serverConnect');
 		this.webSocket.onopen = function() {
 			console.log('websocket onOpen!!');
 		};

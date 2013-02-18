@@ -8,6 +8,10 @@ Ext.define('Biofuels.view.ProgressPanel', {
 
 	extend: 'Ext.panel.Panel',
     alias: 'widget.progressPanel',
+    requires: [
+        'Biofuels.view.RoundStageBar',
+        'Biofuels.view.RoundStageMarker'
+    ],
 
 	title: 'Round Stage',
 	titleAlign: 'center',
@@ -29,8 +33,8 @@ Ext.define('Biofuels.view.ProgressPanel', {
         Ext.applyIf(me, {
             items: [{
 				xtype: 'draw',
-				height: 80,
 				width: 500,
+				height: 80,
 				layout: 'absolute',
 				items: [{
 					type: 'rect',
@@ -51,100 +55,34 @@ Ext.define('Biofuels.view.ProgressPanel', {
 			var drawComp = this.child('draw');
 			
 			this.stageBar = Ext.create('Biofuels.view.RoundStageBar');
-			this.stageBar.addToSurface(drawComp.surface, 0, 0);
+			this.stageBar.addToSurface(drawComp.surface, 60, 35, 380);
+			this.setSeasonStage(1);		
+		}
+
+		var markerLabels = new Array();
+		// TODO: or labels could could just be sent by the server...
+		if (json.contractsOn) {
+			markerLabels.push('Contract');
+		}
+		markerLabels.push('Plant');
+		if (json.mgmtOptsOn) {
+			markerLabels.push('Manage');
+		}
+		markerLabels.push('Grow','Year End');
 			
-			this.createStageMarker(drawComp);
-			this.createYearLabel(drawComp);
-			this.stageMarkerPos = 0;
-		}
-		
-		// TODO: signal the stageBar to show or hide the contracts phase
-		//	if needed
+		this.stageBar.setMarkers(markerLabels);
 	},
 	
 	//--------------------------------------------------------------------------
-	createStageMarker: function(drawComp) {
+	setYear: function(year) {
 		
-		this.stageMarker = drawComp.surface.add([{
-			type: 'circle',
-			radius: 12,
-			fill: '#fa2',
-			x: 80,
-			y: 37
-		}]);
-		
-		this.stageMarker[0].show(true);
+		this.stageBar.setYear(year);
 	},
 	
 	//--------------------------------------------------------------------------
-	createYearLabel: function(drawComp) {
-		
-		this.year = 1;
-		this.yearLabel = drawComp.surface.add([{
-    		type: 'text',
-    		text: 'Year ' + this.year,
-    		fill: '#000',
-    		font: "16px monospace",
-    		x: 222,
-    		y: 12
-    	},{
-    		type: 'text',
-    		text: 'Year ' + this.year,
-    		fill: '#0a0',
-    		font: "16px monospace",
-    		x: 222,
-    		y: 9
-    	},{
-    		type: 'text',
-    		text: 'Year ' + this.year,
-    		fill: '#ccc',
-    		font: "16px monospace",
-    		x: 222,
-    		y: 10
-    	}]);
-    	
-    	for (var index = 0; index < this.yearLabel.length; index++) {
-    		this.yearLabel[index].show(true);
-    	}
-	},
-	
-	//--------------------------------------------------------------------------
-	advanceYear: function() {
-		
-		this.year++;
-    	for (var index = 0; index < this.yearLabel.length; index++) {
-    		this.yearLabel[index].text = 'Year' + this.year;
-    		this.yearLabel[index].show(true);
-    	}		
-	},
-	
-	//--------------------------------------------------------------------------
-	advanceStage: function(drawComp) {
-		
-		this.stageMarkerPos++;
-		
-		if (this.stageMarkerPos > 2) {
-			this.stageMarkerPos = 0;
-			this.advanceYear();
-			
-			this.stageMarker[0].setAttributes({
-				translate: {
-					x: this.stageMarkerPos * 170,
-					y: 0
-				}
-			}, true);
-		}
-		else {
-			this.stageMarker[0].animate({
-				duration: 500,
-				to: {
-					translate: {
-						x: this.stageMarkerPos * 170,
-						y: 0
-					}
-				}
-			});
-		}
+	setSeasonStage: function(stage) {
+
+		this.stageBar.setStage(stage, 500);		
 	}
 	
 });

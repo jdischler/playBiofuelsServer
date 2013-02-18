@@ -9,9 +9,13 @@ Ext.define('Biofuels.view.Field', {
 //------------------------------------------------------------------------------
 
 	requires: [
+        'Biofuels.view.CornPlantSprite',
+        'Biofuels.view.CoverCropPlantSprite',
+        'Biofuels.view.GrassPlantSprite',
 		'Biofuels.view.ToggleSprite'
 	],
 	
+
     constructor: function (config) {
         this.crop = new Array();
         this.cropType = "none";
@@ -220,6 +224,9 @@ Ext.define('Biofuels.view.Field', {
 			else if (!cropType.localeCompare("grass")) {
 				this.plantGrass(this.surface);
 			}
+			else if (!cropType.localeCompare("cover")) {
+				this.plantCoverCrop(this.surface);
+			}
 			this.cropType = cropType;
 		}
 	},
@@ -291,7 +298,30 @@ Ext.define('Biofuels.view.Field', {
 			}
 			this.crop.push(aGrass);
 		}
+	},
+	
+    //--------------------------------------------------------------------------
+    plantCoverCrop: function(surface) {
+    	var cx = 0;
+    	var cy = 0;
+    	
+		for (var cover = 0; cover < 14; cover++ ) {
+			var rAtX = cx + this.atX + 12; 
+			var rAtY = cy + this.atY - 22;
+			
+			var aGrass = Ext.create('Biofuels.view.CoverCropPlantSprite');
+			aGrass.addToSurface(surface, rAtX, rAtY, 1200 + Math.random() * 800);
+
+			cx += 35;
+			if (cx > 105) {
+				cx -= 140;
+				cx += (35 / 2);
+				cy += 30;
+			}
+			this.crop.push(aGrass);
+		}
 	}       
+	
 
 });
 

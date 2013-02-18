@@ -1,23 +1,16 @@
 /*
- * File: app/view/CornPlantSprite.js
+ * File: app/view/CoverCropPlantSprite.js
  */
 
 //------------------------------------------------------------------------------
-Ext.define('Biofuels.view.CornPlantSprite', {
+Ext.define('Biofuels.view.CoverCropPlantSprite', {
 //------------------------------------------------------------------------------
 
     constructor: function (config) {
     	
     	this.randomSpriteConfigList = Array([{        
 			type: 'image',
-			src: 'resources/corn_plant.png',
-			width: 30,
-			height: 50,
-			zIndex: 750
-		},
-		{
-			type: 'image',
-			src: 'resources/corn_plant_2.png',
+			src: 'resources/alfalfa_plant.png',
 			width: 30,
 			height: 50,
 			zIndex: 750

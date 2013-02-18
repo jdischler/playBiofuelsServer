@@ -9,6 +9,13 @@ Ext.define('Biofuels.view.FarmHolderPanel', {
 	extend: 'Ext.panel.Panel',
     alias: 'widget.farmHolderPanel',
 
+    requires: [
+		'Biofuels.view.Field',
+		'Biofuels.view.Farm',
+		'Biofuels.view.FieldOverlay',
+		'Biofuels.view.FieldData'
+	],
+	
     frame: false,
     title: 'Your Farm',
     titleAlign: 'center',

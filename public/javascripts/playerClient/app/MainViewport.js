@@ -14,21 +14,14 @@ Ext.define('Biofuels.view.MainViewport', {
     requires: [
     	'Biofuels.view.NetworkLayer',
     	'Biofuels.view.JoinGamePopup',
-        'Biofuels.view.CornPlantSprite',
-        'Biofuels.view.GrassPlantSprite',
         'Biofuels.view.FarmHolderPanel',
         'Biofuels.view.FieldHealthPopup',
         'Biofuels.view.InformationPanel',
         'Biofuels.view.ContractPanel',
         'Biofuels.view.ContractOfferingPanel',
-        'Biofuels.view.SustainabilityPanel',
-        'Biofuels.view.Field',
-        'Biofuels.view.Farm',
+        'Biofuels.view.SustainabilityPanel',        
         'Biofuels.view.ContractHelpWindow',
-        'Biofuels.view.ProgressPanel',
-        'Biofuels.view.RoundStageBar',
-        'Biofuels.view.FieldOverlay',
-        'Biofuels.view.FieldData'
+        'Biofuels.view.ProgressPanel'
     ],
 
     title: 'My Window',

@@ -65,7 +65,12 @@ Ext.define('BiofuelsGlobal.view.JoinGamePopup', {
 				blankText: 'Required',
 				enforceMaxLength: true,
 				maxLength: 16,
-				validator: Ext.bind(this.dirtyChange, this)
+				validator: Ext.bind(this.dirtyChange, this),
+				listeners: {
+					afterrender: function(field) {
+						field.focus(true, 500);
+					}
+				}
 			},
 			{
 				xtype: 'image',

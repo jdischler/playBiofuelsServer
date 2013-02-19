@@ -65,7 +65,7 @@ Ext.define('BiofuelsGlobal.view.MainViewport', {
         
         BiofuelsGlobal.network = Ext.create('BiofuelsGlobal.view.NetworkLayer');
 		// 192.168.1.101
-        BiofuelsGlobal.network.openSocket('10.140.2.208', 9000, '/BiofuelsGame/serverConnect');
+        BiofuelsGlobal.network.openSocket('10.140.3.203', 9000, '/BiofuelsGame/serverConnect');
 
         this.initNetworkEvents();
         

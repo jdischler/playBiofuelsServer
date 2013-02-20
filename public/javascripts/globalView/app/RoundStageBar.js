@@ -3,7 +3,7 @@
  */
 
 //------------------------------------------------------------------------------
-Ext.define('Biofuels.view.RoundStageBar', {
+Ext.define('BiofuelsGlobal.view.RoundStageBar', {
 //------------------------------------------------------------------------------
 
     constructor: function (config) {
@@ -105,7 +105,7 @@ Ext.define('Biofuels.view.RoundStageBar', {
 		var count = markerArray.length - 1;
 		for (index = 0; index <= count; index++) {
 			
-			var marker = Ext.create('Biofuels.view.RoundStageMarker');
+			var marker = Ext.create('BiofuelsGlobal.view.RoundStageMarker');
 			var posX = this.placement.x + this.placement.width * (index / count);
 			marker.addToSurface(this.surface, posX, this.placement.y, markerArray[index]);
 			this.markers.push(marker);

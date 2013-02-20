@@ -169,6 +169,12 @@ Ext.define('BiofuelsModerator.view.CreateGamePopup', {
     		return;
     	}
     	
+    	// derp, save here for display...
+		BiofuelsModerator.roomInformation = {
+			roomName: roomName,
+			password: password
+		}
+
     	var message = {
     		event: 'createRoom',
     		roomName: roomName,
@@ -182,6 +188,10 @@ Ext.define('BiofuelsModerator.view.CreateGamePopup', {
     serverCreateRoomResult: function(json) {
     	
      	if (json.result) {
+     		BiofuelsModerator.activeView.displayRoomNamePassword(
+     			BiofuelsModerator.roomInformation.roomName,
+     			BiofuelsModerator.roomInformation.password);
+
      		this.close();
      	}
      	else {

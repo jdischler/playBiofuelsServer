@@ -25,9 +25,11 @@ Ext.define('BiofuelsModerator.view.MainViewport', {
     initComponent: function() {
         var me = this;        
         
+        BiofuelsModerator.activeView = this;
+
         BiofuelsModerator.network = Ext.create('BiofuelsModerator.view.NetworkLayer');
 		// 192.168.1.101
-        BiofuelsModerator.network.openSocket('10.140.3.203', 9000, '/BiofuelsGame/serverConnect');
+        BiofuelsModerator.network.openSocket('10.140.1.172', 9000, '/BiofuelsGame/serverConnect');
 
         Ext.applyIf(me, {
             items: [{
@@ -48,10 +50,30 @@ Ext.define('BiofuelsModerator.view.MainViewport', {
                     title: 'Game Settings',
                     titleAlign: 'center',
                     items: [{
+						xtype: 'textfield',
+						itemId: 'roomName',
+						x: 20,
+						y: 20,
+						width: 120,
+						fieldLabel: 'Room',
+						labelAlign: 'right',
+						labelWidth: 40,
+						disabled: true
+					},{
+						xtype: 'textfield',
+						itemId: 'password',
+						x: 130,
+						y: 20,
+						width: 160,
+						fieldLabel: 'Password',
+						labelAlign: 'right',
+						labelWidth: 80,
+						disabled: true
+					},{
 						xtype: 'numberfield',
 						itemId: 'fieldCount',
 						x: 20,
-						y: 20,
+						y: 60,
 						value: 2,
 						fieldLabel: '# of Fields',
 						labelAlign: 'right',
@@ -62,29 +84,26 @@ Ext.define('BiofuelsModerator.view.MainViewport', {
 						minValue: 2,
 						step: 2,
 						width: 225
-					},
-					{
+					},{
 						xtype: 'checkboxfield',
 						itemId: 'contracts',
 						x: 20,
-						y: 50,
+						y: 90,
 						fieldLabel: 'Contracts Enabled',
 						labelAlign: 'right',
 						labelWidth: 125
-					},
-					{
+					},{
 						xtype: 'checkboxfield',
 						itemId: 'managementOptions',
 						x: 20,
-						y: 80,
+						y: 120,
 						fieldLabel: 'Management Options Enabled',
 						labelAlign: 'right',
 						labelWidth: 125
-					},
-					{
+					},{
 						xtype: 'button',
 						x: 30,
-						y: 140,
+						y: 180,
 						scale: 'medium',
 						width: 260,
 						text: 'Apply Settings!',
@@ -92,16 +111,14 @@ Ext.define('BiofuelsModerator.view.MainViewport', {
 						handler: function() {
 							this.applySettingsChange();
 						}
-					},
-					{
+					},{
 						xtype: 'button',
 						x: 80,
 						y: 240,
 						enableToggle: true,
 						scale: 'large',
 						text: 'Pause'
-					},
-					{
+					},{
 						xtype: 'button',
 						x: 140,
 						y: 240,
@@ -114,6 +131,17 @@ Ext.define('BiofuelsModerator.view.MainViewport', {
         });
 
         me.callParent(arguments);
+    },
+    
+ 	//--------------------------------------------------------------------------
+    displayRoomNamePassword: function(roomName, password) {
+    	
+ 		var container = this.getComponent('panel1').getComponent('panel2');
+    	var roomNameCtrl = container.getComponent('roomName');
+    	var passwordCtrl = container.getComponent('password');
+    	
+    	roomNameCtrl.setValue(roomName);
+    	passwordCtrl.setValue(password);
     },
     
  	//--------------------------------------------------------------------------

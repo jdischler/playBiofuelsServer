@@ -14,7 +14,8 @@ Ext.define('BiofuelsGlobal.view.MainViewport', {
 	extend: 'Ext.container.Viewport',
     requires: [
         'BiofuelsGlobal.view.JoinGamePopup',
-    	'BiofuelsGlobal.view.NetworkLayer'
+    	'BiofuelsGlobal.view.NetworkLayer',
+    	'BiofuelsGlobal.view.ProgressPanel'
     ],
 
     title: 'My Window',
@@ -34,13 +35,6 @@ Ext.define('BiofuelsGlobal.view.MainViewport', {
     updateFarmerList: function(json) {
 
     	this.farmerListStore.loadRawData(json, false);
-    	
-		// FIXME: not the best place for this...needs to happen after login    	
-    	var roomName = this.getComponent('panel1').getComponent('roomName');
-    	var password = this.getComponent('panel1').getComponent('password');
-    	
-    	roomName.setValue(BiofuelsGlobal.roomInformation.roomName);
-    	password.setValue(BiofuelsGlobal.roomInformation.password);
     },
     
 	//--------------------------------------------------------------------------
@@ -63,9 +57,11 @@ Ext.define('BiofuelsGlobal.view.MainViewport', {
     initComponent: function() {
         var me = this;        
         
+        BiofuelsGlobal.activeView = this;
+
         BiofuelsGlobal.network = Ext.create('BiofuelsGlobal.view.NetworkLayer');
 		// 192.168.1.101
-        BiofuelsGlobal.network.openSocket('10.140.3.203', 9000, '/BiofuelsGame/serverConnect');
+        BiofuelsGlobal.network.openSocket('10.140.1.172', 9000, '/BiofuelsGame/serverConnect');
 
         this.initNetworkEvents();
         
@@ -114,13 +110,11 @@ Ext.define('BiofuelsGlobal.view.MainViewport', {
 					}
 				},
 				{
-					xtype: 'panel',
+					xtype: 'progressPanel',
 					x: 190,
 					y: 10,
-					height: 80,
 					width: 440,
-					title: 'Round Progress',
-					titleAlign: 'center'
+					height: 100
 				},
 				{
 					xtype: 'textfield',
@@ -146,6 +140,17 @@ Ext.define('BiofuelsGlobal.view.MainViewport', {
         });
         
         me.callParent(arguments);
+    },
+    
+ 	//--------------------------------------------------------------------------
+    displayRoomNamePassword: function(roomName, password) {
+    	
+    	var roomNameCtrl = this.getComponent('panel1').getComponent('roomName');
+    	var passwordCtrl = this.getComponent('panel1').getComponent('password');
+    	
+    	roomNameCtrl.setValue(roomName);
+    	passwordCtrl.setValue(password);
     }
+    
     
 });

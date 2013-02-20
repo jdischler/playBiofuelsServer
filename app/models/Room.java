@@ -189,7 +189,7 @@ public class Room {
 	
 	// TODO: possibly keep a Map<Room,Array<WebSocket.Out<JsonNode>>>?
 	//---------------------------------------------------
-	public void broadcastMessage(JsonNode json) {
+	public void broadcastMessage(JsonNode json, boolean sendToGlobalViewers) {
 		
 		for (Map.Entry<WebSocket.Out<JsonNode>,Room> entry : mSocketToRoom.entrySet()) {
 			WebSocket.Out<JsonNode> key = entry.getKey();
@@ -198,7 +198,26 @@ public class Room {
 				key.write(json);
 			}
 		}
+		if (sendToGlobalViewers) {
+			for (WebSocket.Out<JsonNode> out : mGlobalViewers) {
+				out.write(json);
+			}
+		}
 	}
+
+	//---------------------------------------------------
+	public ObjectNode generateSettingsEvent() {
+		
+		ObjectNode res = Json.newObject();
+		
+		res = Json.newObject();
+		res.put("event", "changeSettings");
+		res.put("fieldCount", this.mFieldCount);
+		res.put("contractsOn", this.mContractsEnabled);
+		res.put("mgmtOptsOn", this.mManagementOptionsEnabled);
+		
+		return res;
+	}			
 
 	//---------------------------------------------------
 	public synchronized static boolean processMessage(final WebSocket.Out<JsonNode> out,
@@ -283,11 +302,7 @@ public class Room {
 				return result;
 			}
 			
-			res = Json.newObject();
-			res.put("event", "changeSettings");
-			res.put("fieldCount", room.mFieldCount);
-			res.put("contractsOn", room.mContractsEnabled);
-			res.put("mgmtOptsOn", room.mManagementOptionsEnabled);
+			res = room.generateSettingsEvent();
 			out.write(res);			
 
 			return result;
@@ -320,6 +335,18 @@ public class Room {
 					"is not entering a valid room name or the password did not match."); 
 			}
 			out.write(res);
+			
+			Room room = Room.getRoom(roomName);
+			if (room == null) {
+				// TODO: probably an error?
+				return result;
+			}
+
+			// send farmer list...send settings 
+			room.broadcastFarmerList();
+			res = room.generateSettingsEvent();
+			out.write(res);			
+
 			return result;
   		}
 
@@ -340,7 +367,8 @@ public class Room {
     		room.mManagementOptionsEnabled = mgmtOptsOn;
     		
     		// pass the incoming JsonNode event back out to the clients in the room
-    		room.broadcastMessage(event);
+    		//	...and any global viewers
+    		room.broadcastMessage(event, true);
     		return true;
     	}
 	

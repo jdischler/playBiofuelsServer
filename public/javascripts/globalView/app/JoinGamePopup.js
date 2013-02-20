@@ -208,6 +208,10 @@ Ext.define('BiofuelsGlobal.view.JoinGamePopup', {
     serverJoinRoomResult: function(json) {
     	
      	if (json.result) {
+     		BiofuelsGlobal.activeView.displayRoomNamePassword(
+     			BiofuelsGlobal.roomInformation.roomName,
+     			BiofuelsGlobal.roomInformation.password);
+
      		this.close();
      	}
      	else {

@@ -12,7 +12,8 @@ Ext.define('Biofuels.view.Field', {
         'Biofuels.view.CornPlantSprite',
         'Biofuels.view.CoverCropPlantSprite',
         'Biofuels.view.GrassPlantSprite',
-		'Biofuels.view.ToggleSprite'
+		'Biofuels.view.ToggleSprite',
+		'Biofuels.view.PlantPopupNew'
 	],
 	
 
@@ -133,8 +134,9 @@ Ext.define('Biofuels.view.Field', {
 		
 		this.setPlantingIconListeners();
 		
-		this.popup = Ext.create('Biofuels.view.PlantPopup');
-        this.popup.createForSurface(this.surface, atX, atY);
+		this.popup = Ext.create('Biofuels.view.PlantPopupNew');
+		this.popup.setPosition(atX, atY);
+//        this.popup.createForSurface(this.surface, atX, atY);
     },
 
     //--------------------------------------------------------------------------
@@ -232,8 +234,11 @@ Ext.define('Biofuels.view.Field', {
 	},
 	
     //--------------------------------------------------------------------------
-    onClick: function(evt, target) {
-        this.popup.showPopup(this.onPlantingClickHandler, this);
+    onClick: function(evt, target, other) {
+    	var loc = target.getXY();
+    	
+    	this.popup.display(this.onPlantingClickHandler, this,
+    		loc[0], loc[1]);
 	},
     
     //--------------------------------------------------------------------------

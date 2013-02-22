@@ -246,6 +246,7 @@ Ext.define('Biofuels.view.Field', {
 		for (var index = 0; index < this.crop.length; index++) {
 			this.crop[index].removeFromSurface();
 		}
+		this.crop = [];
 	},
 	
     //--------------------------------------------------------------------------

@@ -17,4 +17,4 @@ GET		/BiofuelsGame/app/resources/*file	controllers.Assets.at(path="/public/image
 
 GET		/Biofuels/app/view/*file		controllers.Assets.at(path="/public/javascripts/globalView/app", file)
 GET		/Biofuels/app/resources/*file	controllers.Assets.at(path="/public/images", file)
-
+GET		/*file							controllers.Assets.at(path="/public", file)
